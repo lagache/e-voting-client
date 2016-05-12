@@ -16,7 +16,14 @@ function Login({ title }) {
     <div className={s.root}>
       <div className={s.container}>
         <h1>{title}</h1>
-        <p>...</p>
+        <p>Log in to the e-voting platform</p>
+        <div>
+        	<input type="text" id="username" placeholder="username" tabIndex="1"/>
+        </div>
+        <div>
+        	<input type="text" id="password" placeholder="password" tabIndex="2"/>
+        </div>
+        	<div type="button" className={s.button} name="login">Login</div>
       </div>
     </div>
   );
