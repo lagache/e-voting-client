@@ -10,14 +10,14 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Parties.scss';
-import Party from './party/Party.js';
+import Party from './party/Party';
 
 function Parties({ data }) {
 	let partyOptions;
 	if(data){
 		partyOptions = data.map(function(party){
 			return (
-				<Party data={party} key={party.id} />
+				<option key={party.id} id={party.id} value={party.id}>{party.name}</option>
 			);
 		});
 	}
