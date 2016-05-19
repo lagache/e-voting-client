@@ -11,13 +11,17 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Vote.scss';
 import Parties from './parties/Parties.js';
+import Candidates from './candidates/Candidates.js';
 
 function Vote({ election }) {
 	return (
 	    <div className={s.root}>
 	      <div className={s.container}>
 	        <h1>Vote Here</h1>
+	        <h2>Select a Party</h2>
 	        <Parties data={election.parties}/>
+	        <h2>Select a Candidate</h2>
+	        <Candidates data={election.candidates}/>
 	      </div>
 	    </div>
 	);

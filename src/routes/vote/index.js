@@ -18,18 +18,35 @@ export const action = async (state) => {
   let electionData = {
   	parties: [
   	  {
-  	  	id:'00001',
-  	  	name:'Green'
+  	  	id:'P0001',
+  	  	name:'Green Party'
   	  },
   	  {
-  	  	id:'00002',
-  	  	name:'Orange'
+  	  	id:'P0002',
+  	  	name:'Aubergine Party'
   	  },
   	  {
-  	  	id:'00003',
-  	  	name:'myParty'
+  	  	id:'P0003',
+  	  	name:'Party Party'
   	  }
-  	]
+  	],
+    candidates: [
+      {
+        id:'C0001',
+        name:'John Key',
+        partyId:'P0001'
+      },
+      {
+        id:'C0002',
+        name:'Ron Burgendy',
+        partyId:'P0003'
+      },
+      {
+        id:'C0003',
+        name:'Dawie Olivier',
+        partyId:'P0002'
+      }
+    ]
   }
   return <Vote election={electionData} />;
 };
