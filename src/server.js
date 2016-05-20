@@ -40,6 +40,64 @@ server.use(cookieParser());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 
+var ApiResponse = require('./public/responses');
+
+server.get('/api', function (req, res) {
+  var a = "HELLO ... /api/election/vote/v1 ... /api/election/data/v1";
+   res.send(a);
+});
+
+server.get('/api/election/vote/v1', function(req, res) {
+  // get information for block
+
+  // chaincode.invoke.OUR_FUNCTION(function() {
+  //    our callback
+  // });
+
+  res.send("Vote submitted");
+});
+
+// hardcoded response for getting election data
+server.get('/api/election/data/v1', function(req, res) {
+  var b = {
+        election: {
+          election_id:"0001",
+          election_name:"MyElection",
+          parties:[
+            {
+              party_id:"01",
+              party_name:"Blue",
+              candidates:[
+                {
+                  candidate_id:"01",
+                  candidate_name:"Arya Stark"
+                },
+                {
+                  candidate_id:"02",
+                  candidate_name:"John Snow"
+                }
+              ]
+            },
+            {
+              party_id:"02",
+              party_name:"Red",
+              candidates:[
+                {
+                  candidate_id:"01",
+                  candidate_name:"Jamie Lanister"
+                },
+                {
+                  candidate_id:"02",
+                  candidate_name:"Cersie Lanister"
+                }
+              ]
+            },
+          ]
+        }
+      };
+  res.json(b);
+});
+
 //
 // Authentication
 // -----------------------------------------------------------------------------
