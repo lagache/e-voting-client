@@ -22,12 +22,12 @@ function Vote({ election }) {
 	        <Parties data={election.parties}/>
 	        <h2>Select a Candidate</h2>
 	        <Candidates data={election.candidates}/>
+	        <br/>
+	        <div className={s.container}><button className={s.root}>Submit</button></div>
 	      </div>
 	    </div>
 	);
 }
-
-
 
 Vote.propTypes = { election: PropTypes.object.isRequired };
 

@@ -25,6 +25,7 @@ function Parties({ data }) {
 	return (
 	    <div className={s.root}>
 	    	<select id="partyOptions">
+	    		<option disabled selected value> -- select an option -- </option>
 	    		{partyOptions}
 	    	</select>
 	    </div>

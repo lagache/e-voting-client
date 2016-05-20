@@ -24,6 +24,7 @@ function Candidates({ data }) {
 	return (
 	    <div className={s.root}>
 	    	<select id="candidateOptions">
+	    		<option disabled selected value> -- select an option -- </option>
 	    		{candidateOptions}
 	    	</select>
 	    </div>
