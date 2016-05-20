@@ -17,6 +17,7 @@ function Navigation({ className }) {
   return (
     <div className={cx(s.root, className)} role="navigation">
       <Link className={s.link} to="/login">Login</Link>
+      <Link className={s.link} to="/vote">Vote</Link>
     </div>
   );
 }
