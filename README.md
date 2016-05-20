@@ -14,8 +14,15 @@ $> npm start
 1 - Build and bundle the application
 $> npm run build -- --release
 
-2 - deploy the app
-$>  cf push EVOTING_V1
+2 - Go into build folder
+$> cd build
+
+3 - Login to bluemix
+$> cf login
+and follow instructions on the terminal
+
+4 - Deploy the app
+$>  cf push <your_app_name>
 
 
 ## React Starter Kit — "isomorphic" web app boilerplate
