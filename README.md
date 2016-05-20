@@ -10,6 +10,13 @@ $> npm install
 3 - Start the application
 $> npm start
 
+## Build and deploy the app into bluemix
+1 - Build and bundle the application
+$> npm run build -- --release
+
+2 - deploy the app
+$>  cf push EVOTING_V1
+
 
 ## React Starter Kit — "isomorphic" web app boilerplate
 
