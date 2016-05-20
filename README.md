@@ -22,7 +22,7 @@ $> cf login
 and follow instructions on the terminal
 
 4 - Deploy the app
-$>  cf push <your_app_name>
+$>  cf push "your_app_name"
 
 
 ## React Starter Kit — "isomorphic" web app boilerplate
