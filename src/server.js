@@ -21,6 +21,7 @@ import passport from './core/passport';
 import schema from './data/schema';
 import Router from './routes';
 import assets from './assets';
+import Ibc1 from 'ibm-blockchain-js';
 import { port, auth, analytics } from './config';
 
 const server = global.server = express();
@@ -40,6 +41,87 @@ server.use(cookieParser());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 
+//
+// ibm-blockchain-js initialization
+// -----------------------------------------------------------------------------
+var ibc = new Ibc1();
+var chaincode = {};
+
+// ==================================
+// configure ibc-js sdk
+// currently configured to...
+//  - Emmanuel's blockchain service, and
+//  - marbles demo chaincode
+// ==================================
+var options =   {
+  network:{
+    'peers': [
+      {
+        'api_host': 'aaa58403-33ee-41b1-9ec0-45f3ec4c7f96_vp1-api.blockchain.ibm.com',
+        'api_port_tls': 443,
+        'api_port': 80,
+        'id': 'aaa58403-33ee-41b1-9ec0-45f3ec4c7f96'
+      },
+      {
+        'api_host': 'aaa58403-33ee-41b1-9ec0-45f3ec4c7f96_vp2-api.blockchain.ibm.com',
+        'api_port_tls': 443,
+        'api_port': 80,
+        'id': 'aaa58403-33ee-41b1-9ec0-45f3ec4c7f96'
+      }
+    ],
+    users: [
+      {
+    		'enrollId': 'dashboarduser_type0_f51ef4cefc',
+    		'enrollSecret': 'f9953b6b5e'
+    	},
+      {
+        "enrollId": "user_type1_cbd1460197",
+        "enrollSecret": "00aeacd492"
+      }
+    ]
+  },
+  options: {
+    quiet: true,
+    tls:false,
+    maxRetry: 1
+  },
+  chaincode:{
+    // marbles chaincode repository
+    zip_url: 'https://github.com/ibm-blockchain/marbles-chaincode/archive/master.zip',
+    unzip_dir: 'marbles-chaincode-master/hyperledger/part1',								//subdirectroy name of chaincode after unzipped
+    git_url: 'https://github.com/ibm-blockchain/marbles-chaincode/hyperledger/part1',		//GO get http url
+
+    // emmanuel's test chaincode repository
+    // zip_url: 'https://github.com/eman3220/emanschaincodetest/archive/master.zip',
+    // unzip_dir: 'emanschaincodetest-master/hyperledger/part1',								//subdirectroy name of chaincode after unzipped
+    // git_url: 'https://github.com/eman3220/emanschaincodetest/hyperledger/part1',		//GO get http url
+  }
+};
+
+ibc.load(options, cb_ready);
+
+function cb_ready(err, cc){
+    chaincode = cc;
+    console.log("The chaincode is: "+JSON.stringify(chaincode));
+    if(cc.details.deployed_name === ""){                //decide if I need to deploy or not
+        cc.deploy('init', ['99'], null, cb_deployed);
+    }
+    else {
+        console.log("NAME IS: "+cc.details.deployed_name);
+        console.log('chaincode summary file indicates chaincode has been previously deployed');
+        cb_deployed();
+    }
+}
+
+function cb_deployed(err){
+  console.log('sdk has deployed code and waited');
+  chaincode.query.read(['a']);
+}
+
+
+//
+// API endpoints
+// -----------------------------------------------------------------------------
 server.get('/api', function (req, res) {
     res.send(getWelcome());
 });
@@ -47,8 +129,12 @@ server.get('/api', function (req, res) {
 server.post('/api/election/vote/v1', function(req, res) {
   // get information for block
 
-  // chaincode.invoke.init_marble(function() {
-  //   return {"eman", "red", "20", "bob"}
+  var election_id,
+      vote_id,
+      voter_token;
+
+  // chaincode.invoke.OUR_FUNCTION([arg1, arg2, ...], function() {
+    // console.log('OUR_FUNCTION response:', data, err);
   // });
 
   res.sendStatus(200);
