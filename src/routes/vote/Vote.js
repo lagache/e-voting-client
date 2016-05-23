@@ -20,8 +20,6 @@ function Vote({ election }) {
 	        <h1>Vote Here</h1>
 	        <h2>Select a Party</h2>
 	        <Parties data={election.parties}/>
-	        <h2>Select a Candidate</h2>
-	        <Candidates data={election.candidates}/>
 	        <br/>
 	        <div className={s.container}><button className={s.root}>Submit</button></div>
 	      </div>

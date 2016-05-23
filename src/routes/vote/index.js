@@ -15,37 +15,26 @@ export const action = async (state) => {
   const title = 'Vote';
   state.context.onSetTitle(title);
 
-  let electionData = {
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "http://localhost:3001/api/election/data/v1", false);
+  xhr.send();
+
+  let electionData = JSON.parse(xhr.responseText).election;
+
+  let mockElectionData = {
   	parties: [
   	  {
-  	  	id:'P0001',
-  	  	name:'Green Party'
+  	  	party_id:'P0001',
+  	  	party_name:'Green Party'
   	  },
   	  {
-  	  	id:'P0002',
-  	  	name:'Aubergine Party'
+  	  	party_id:'P0002',
+  	  	party_name:'Aubergine Party'
   	  },
   	  {
-  	  	id:'P0003',
-  	  	name:'Party Party'
+  	  	party_id:'P0003',
+  	  	party_name:'Party Party'
   	  }
-  	],
-    candidates: [
-      {
-        id:'C0001',
-        name:'John Key',
-        partyId:'P0001'
-      },
-      {
-        id:'C0002',
-        name:'Ron Burgendy',
-        partyId:'P0003'
-      },
-      {
-        id:'C0003',
-        name:'Dawie Olivier',
-        partyId:'P0002'
-      }
     ]
   }
   return <Vote election={electionData} />;
