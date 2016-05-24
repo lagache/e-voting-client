@@ -50,7 +50,7 @@ server.post('/api/election/vote/v1', function(req, res) {
   // chaincode.invoke.init_marble(function() {
   //   return {"eman", "red", "20", "bob"}
   // });
-
+  console.log(req.param);
   res.sendStatus(200);
 });
 

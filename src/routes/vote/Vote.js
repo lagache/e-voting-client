@@ -21,7 +21,12 @@ function Vote({ election }) {
 	        <h2>Select a Party</h2>
 	        <Parties data={election.parties}/>
 	        <br/>
-	        <div className={s.container}><button className={s.root}>Submit</button></div>
+	        <div className={s.container}><button className={s.root} onClick={function(){
+	        		var xhr = new XMLHttpRequest();
+					xhr.open("POST", "http://localhost:3001/api/election/vote/v1", false);
+					xhr.send("hi");
+					alert(xhr.status);
+	        	}}>Submit</button></div>
 	      </div>
 	    </div>
 	);
