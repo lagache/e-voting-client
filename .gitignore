@@ -1,1 +1,3 @@
-build/
+build/*
+evoting_chaincode/evoting_chaincode
+node_modules/*
