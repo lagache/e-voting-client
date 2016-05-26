@@ -211,7 +211,7 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 
 		election, err = t.getElection(stub, args[0])
 
-		fmt.Println("Unmarshalling Election");
+		fmt.Println("Unmarshalling Vote");
 		err = json.Unmarshal([]byte(args[1]), &vote)
 		if err != nil {
 			fmt.Println("error vote")
@@ -254,7 +254,7 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 			election, err = t.getElection(stub, args[0])
 
 			fmt.Println("Unmarshalling Election");
-			err = json.Unmarshal([]byte(args[1]), &vote)
+			err = json.Unmarshal([]byte(args[0]), &vote)
 			if err != nil {
 				fmt.Println("error unmarshalling election")
 				return nil, errors.New("Invalid election")
