@@ -191,34 +191,34 @@ function getElectionData(){
       //    console.log('### data: '+ data);
       //     //output.election = JSON.stringify(data);
       //    });
-      
+
     //   output.election.name = electionData.name;
     //   output.election.options = electionData.options;
     //   console.log('### output: '+ output);
      }
-// electionData:{  
+// electionData:{
 //    "id":"0001",
 //    "name":"my first election into blockchain",
 //    "question":"what is your favorite color",
-//    "options":[  
-//       {  
+//    "options":[
+//       {
 //          "id":1,
 //          "name":"red"
 //       },
-//       {  
+//       {
 //          "id":2,
 //          "name":"blue"
 //       },
-//       {  
+//       {
 //          "id":3,
 //          "name":"greeen"
 //       },
-//       {  
+//       {
 //          "id":4,
 //          "name":"yellow"
 //       }
 //    ]
-  
+
 // }
     return output;
 }
@@ -238,12 +238,12 @@ function getElectionData(){
     var peers, users;
     console.log('start loading peers and users from Blockchain service');
 
-    if(process.env.VCAP_SERVICES){      
+    if(process.env.VCAP_SERVICES){
     console.log('###1');                        //load from vcap, search for service, 1 of the 3 should be found...
       var servicesObject = JSON.parse(process.env.VCAP_SERVICES);
-      console.log('###2:'+servicesObject);   
+      console.log('###2:'+servicesObject);
       for(var i in servicesObject){
-        console.log('###3:'+i); 
+        console.log('###3:'+i);
         if(i.indexOf(blockChainServiceName) >= 0){                     //looks close enough
           if(servicesObject[i][0].credentials.error){
             console.log('!\n!\n! Error from Bluemix: \n', servicesObject[i][0].credentials.error, '!\n!\n');
@@ -257,7 +257,7 @@ function getElectionData(){
             if(servicesObject[i][0].credentials.users){
               console.log('writting users, loading from a vcap service: ', i);
               users = servicesObject[i][0].credentials.users;
-            } 
+            }
             else users = null;                            //no security
             break;
           }
@@ -280,7 +280,7 @@ function getElectionData(){
                 zip_url: 'https://github.com/lagache/e-voting-client/archive/master.zip',
                 git_url: 'https://github.com/lagache/e-voting-client/tree/master/evoting_chaincode',
                 unzip_dir: 'e-voting-client-master/evoting_chaincode',
-                deployed_name: '039dc8771292308aa30875cf3e0ef6a2023383c32218deb5012ebe419a6cf273f9a969f3d143d0a4de5069af7fe44164bc3d02495c67b4cb47360324717a7467'
+                deployed_name: 'ca62faeac9dec74351700dca56acc0d123f3d0ae59570a61f9f1b81d5e23ce54b6654545fa99f2b5ec9431acc64a7dd777251e5aac6be2566df85e1c7a9532ed'
               }
             };
 
@@ -328,7 +328,7 @@ function getElectionData(){
     }
 
     // Step 2 ==================================
-    //ibc.load(options, cb_ready);  
+    //ibc.load(options, cb_ready);
 
     //  chaincode.query.getElection(['0001'], function(err, data){
     //     console.log('###query getElection:', data, err);
