@@ -47,6 +47,7 @@ server.get('/api', function (req, res) {
 server.post('/api/election/vote/v1', function(req, res) {
   // get information for block
 
+  console.log('option1=' + req.body.option1);
   // chaincode.invoke.init_marble(function() {
   //   return {"eman", "red", "20", "bob"}
   // });
