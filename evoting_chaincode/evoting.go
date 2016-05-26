@@ -43,7 +43,7 @@ type Vote struct {
 }
 
 type OptionTotal struct {
-  OptionId int `json:"optionId"`
+  Id int `json:"optionId"`
   Total int `json:"total"`
 }
 
@@ -247,13 +247,12 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 				return nil, errors.New("Incorrect number of arguments. Expecting electionId")
 			}
 
-			var election Election
-			var err error
+			election, err := t.getElection(stub, args[0])
 
-			election, err = t.getElection(stub, args[0])
+			tally := Tally{}
 
-			election.Tally.VoteCount = 0
-			election.Tally.OptionTotals = make([]OptionTotal, 0)
+			tally.VoteCount = 0
+			tally.OptionTotals = make([]OptionTotal, 0)
 
 			var counts map[int]int
 
@@ -264,7 +263,7 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 			}
 
 			for _,element := range election.Votes {
-				election.Tally.VoteCount = election.Tally.VoteCount + 1
+				tally.VoteCount = tally.VoteCount + 1
         counts[element.OptionId] = counts[element.OptionId] + 1
 			}
 
@@ -274,8 +273,10 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 			}
 			sort.Ints(keys)
 			for _, k := range keys {
-				election.Tally.OptionTotals = append(election.Tally.OptionTotals, OptionTotal{k, counts[k]})
+			  tally.OptionTotals = append(tally.OptionTotals, OptionTotal{k, counts[k]})
 			}
+
+      election.Tally = tally
 
 			err = t.saveElection(stub, election)
 
