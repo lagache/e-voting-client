@@ -43,9 +43,9 @@ function LoginPage({ title }) {
 	    <div className={s.root}>
 	      	<div className={s.container}>
 	      		<h1>Log in</h1><br />
-	      		Login PIN <input id='pinInput' type='PIN' /><br />
-	      		Login Password <input id='passwordInput' type='password' /><br />
-	      		<div className={s.container}><button className={s.root} onClick={
+	      		<h4>Login PIN</h4><input id='pinInput' className={s.inputField} type='PIN' /><br />
+	      		<h4>Login Password</h4><input id='passwordInput' className={s.inputField} type='password' /><br />
+	      		<div className={s.container}><button className={s.buttonPrimary} onClick={
 	      			function(){
 		        		// let loginString=document.getElementById("loginStringInput").value;
 		        		// if(loginString){
@@ -54,7 +54,7 @@ function LoginPage({ title }) {
 		        		// 	alert('enter your login words');
 		        		// }
 		        	}
-		    	}>Log In</button></div>
+		    	}>Log in</button></div>
 
 	    	</div>
 	    </div>

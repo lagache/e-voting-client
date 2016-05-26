@@ -7,6 +7,9 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
+/** <h1 className={s.bannerTitle}>VoteVault</h1>  
+    <p className={s.bannerDesc}>Prototype voting platform</p> */
+
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.scss';
@@ -17,14 +20,8 @@ function Header() {
   return (
     <div className={s.root}>
       <div className={s.container}>
-        <Navigation className={s.nav} />
-        <a className={s.brand} href="http://www.wellington.govt.nz">
-          <img src={require('./wellington-city-council-logo.png')} width="113" height="33" alt="React" />
-          <span className={s.brandTxt}>City council</span>
-        </a>
         <div className={s.banner}>
-          <h1 className={s.bannerTitle}>Online voting</h1>
-          <p className={s.bannerDesc}>Welcome to the e-voting platform</p>
+          <img src={require('./VoteVault-Logotype2.png')} width="234" height="27" className={s.logo} />
         </div>
       </div>
     </div>
@@ -32,3 +29,4 @@ function Header() {
 }
 
 export default withStyles(Header, s);
+
