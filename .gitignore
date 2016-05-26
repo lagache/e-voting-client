@@ -1,5 +1,5 @@
 build/*
-!build/.bluemix/pipeline.yml
+!build/.bluemix
 !build/manifest.yml
 foo.dll
 evoting_chaincode/evoting_chaincode
