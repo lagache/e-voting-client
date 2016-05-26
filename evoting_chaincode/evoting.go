@@ -63,11 +63,6 @@ func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 		return nil, errors.New("Incorrect number of arguments. Expecting 1")
 	}
 
-//	err := stub.PutState("hello_world", []byte(args[0]))
-//	if err != nil {
-//		return nil, err
-//	}
-
 	return nil, nil
 }
 
@@ -82,12 +77,6 @@ func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 		return t.createElection(stub, args)
 	} else if function == "vote" {
 		return t.vote(stub, args)
-	} else if function == "getElection" {
-		election, err := t.getElection(stub, args[0])
-		if err != nil {
-			return nil, errors.New("Error getting election")
-		}
-		return json.Marshal(&election)
 	}
 
 	fmt.Println("invoke did not find func: " + function)
@@ -102,7 +91,7 @@ func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args 
 	if function == "getElection" {
 		election, err := t.getElection(stub, args[0])
 		if err != nil {
-			return nil, errors.New("Error getting election")
+			return nil, errors.New("Error getting election: " + err.Error())
 		}
 		return json.Marshal(&election)
 	}
@@ -118,7 +107,7 @@ func (t *SimpleChaincode) saveElection(stub *shim.ChaincodeStub, election Electi
 
 		electionWriteBytes, err := json.Marshal(&election)
 		if err != nil {
-			fmt.Println("Error marshalling election");
+			fmt.Println("Error marshalling election: " + err.Error());
 			return errors.New("Error creating election")
 		}
 
@@ -145,12 +134,12 @@ func (t *SimpleChaincode) createElection(stub *shim.ChaincodeStub, args []string
 		err = json.Unmarshal([]byte(args[0]), &election)
 		if err != nil {
 			fmt.Println("error unmarshalling election")
-			return nil, errors.New("Invalid election")
+			return nil, errors.New("Invalid election: " + err.Error())
 		}
 
-		t.saveElection(stub, election)
+		err = t.saveElection(stub, election)
 
-		return nil, nil
+		return nil, err
 }
 
 func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId string) (Election, error){
@@ -161,6 +150,8 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 			fmt.Println("error invalid arguments")
 			return election, errors.New("Incorrect number of arguments. Expecting electionId record")
 		}
+
+		fmt.Println("Getting election state");
 
 		electionBytes, err := stub.GetState(electionId)
 
