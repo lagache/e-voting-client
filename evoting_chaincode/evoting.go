@@ -160,7 +160,7 @@ func (t *SimpleChaincode) createElection(stub *shim.ChaincodeStub, args []string
 		var election Election
 		var err error
 
-		fmt.Println("Unmarshalling Election");
+		fmt.Println("Unmarshalling Election")
 		err = json.Unmarshal([]byte(args[0]), &election)
 		if err != nil {
 			fmt.Println("error unmarshalling election")
@@ -211,7 +211,7 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 
 		election, err = t.getElection(stub, args[0])
 
-		fmt.Println("Unmarshalling Vote");
+		fmt.Println("Unmarshalling Vote")
 		err = json.Unmarshal([]byte(args[1]), &vote)
 		if err != nil {
 			fmt.Println("error vote")
@@ -254,13 +254,13 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 			tally.VoteCount = 0
 			tally.OptionTotals = make([]OptionTotal, 0)
 
-			var counts map[int]int
+//			var counts map[int]int
 
 //      counts[-1] = 0
 
-			for _,element := range election.Options {
-				counts[element.Id] = 0
-			}
+			// for _,element := range election.Options {
+			// 	counts[element.Id] = 0
+			// }
 
 //			for _,element := range election.Votes {
 //				tally.VoteCount = tally.VoteCount + 1
