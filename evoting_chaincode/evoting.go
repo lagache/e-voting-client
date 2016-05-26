@@ -82,7 +82,14 @@ func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 		return t.createElection(stub, args)
 	} else if function == "vote" {
 		return t.vote(stub, args)
+	} else if function == "getElection" {
+		election, err := t.getElection(stub, args[0])
+		if err != nil {
+			return nil, errors.New("Error getting election")
+		}
+		return json.Marshal(&election)
 	}
+
 	fmt.Println("invoke did not find func: " + function)
 
 	return nil, errors.New("Received unknown function invocation")
@@ -95,7 +102,7 @@ func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args 
 	if function == "getElection" {
 		election, err := t.getElection(stub, args[0])
 		if err != nil {
-			return nil, errors.New("Error getting election")			
+			return nil, errors.New("Error getting election")
 		}
 		return json.Marshal(&election)
 	}
