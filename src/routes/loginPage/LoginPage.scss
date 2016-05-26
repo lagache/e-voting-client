@@ -27,7 +27,7 @@
 	font-size: 1.5em;
 	border-radius: 5px;
 	background: white;
-	border: 2px solid #333;
+	border: 2px solid #D1D3D4;
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom: -20px;
@@ -36,6 +36,10 @@
 	height: 1.75em;
 	color: #333;
 	padding: 5px;
+}
+
+.inputField:focus {
+	box-shadow: 0 0 0 1px #999;
 }
 
 .buttonPrimary {
