@@ -19,6 +19,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"sort"
 	// "strconv"
 	"encoding/json"
 	// "time"
@@ -41,6 +42,16 @@ type Vote struct {
 	ReceiptId string `json:"receiptId"`
 }
 
+type OptionTotal struct {
+  OptionId int `json:"optionId"`
+  Total int `json:"total"`
+}
+
+type Tally struct {
+	VoteCount int `json:"votecount"`
+	OptionTotals []OptionTotal `json:"tally"`
+}
+
 type Election struct {
 	Id string `json:"id"`
 	Name string `json:"name"`
@@ -48,6 +59,7 @@ type Election struct {
 	Options []Option  `json:"options"`
 	Tokens []string `json:"tokens"`
 	Votes []Vote `json:"vote"`
+	Tally Tally `json:"tally"`
 }
 
 func main() {
@@ -77,6 +89,8 @@ func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 		return t.createElection(stub, args)
 	} else if function == "vote" {
 		return t.vote(stub, args)
+	} else if function == "tally" {
+		return t.vote(stub, args)
 	}
 
 	fmt.Println("invoke did not find func: " + function)
@@ -93,7 +107,23 @@ func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args 
 		if err != nil {
 			return nil, err
 		}
+		// hide some of the other data
+		election.Votes = make([]Vote, 0)
+		election.Tokens = make([]string, 0)
 		return json.Marshal(&election)
+	} else if function == "hasVote" {
+		election, err := t.getElection(stub, args[0])
+		if err != nil {
+			return nil, err
+		}
+		receiptId := args[1]
+		for _,element := range election.Votes {
+			if receiptId == element.ReceiptId {
+				return json.Marshal("1")
+			}
+		}
+		response, err := json.Marshal("0")
+		return response, errors.New("Vote with receipt " + receiptId + " not found")
 	}
 
 	fmt.Println("query did not find func: " + function)
@@ -137,6 +167,9 @@ func (t *SimpleChaincode) createElection(stub *shim.ChaincodeStub, args []string
 			return nil, errors.New("Invalid election: " + err.Error())
 		}
 
+    election.Tally = Tally{}
+
+
 		err = t.saveElection(stub, election)
 
 		return nil, err
@@ -149,25 +182,25 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 	if electionId == "" {
 			fmt.Println("error invalid arguments")
 			return election, errors.New("Incorrect number of arguments. Expecting electionId record")
-		}
+	}
 
-		fmt.Println("Getting election state");
+	fmt.Println("Getting election state");
 
-		electionBytes, err := stub.GetState(electionId)
+	electionBytes, err := stub.GetState(electionId)
 
-    err = json.Unmarshal(electionBytes, &election)
-		if err != nil {
-			fmt.Println("Error unmarshalling election: " + err.Error());
-			return election, errors.New("Error unmarshalling election: " + err.Error())
-		}
+  err = json.Unmarshal(electionBytes, &election)
+	if err != nil {
+		fmt.Println("Error unmarshalling election: " + err.Error());
+		return election, errors.New("Error unmarshalling election: " + err.Error())
+	}
 
-		return election, nil
+	return election, nil
 }
 
 
 
-func (t *SimpleChaincode) vote(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
-	if len(args) != 2 {
+  func (t *SimpleChaincode) vote(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
+	  if len(args) != 2 {
 			fmt.Println("error invalid arguments")
 			return nil, errors.New("Incorrect number of arguments. Expecting electionId and vote record")
 		}
@@ -178,21 +211,23 @@ func (t *SimpleChaincode) vote(stub *shim.ChaincodeStub, args []string) ([]byte,
 
 		election, err = t.getElection(stub, args[0])
 
-		fmt.Println("Unmarshalling Election");
+		fmt.Println("Unmarshalling Vote");
 		err = json.Unmarshal([]byte(args[1]), &vote)
 		if err != nil {
 			fmt.Println("error vote")
 			return nil, errors.New("Invalid vote")
 		}
 
-
-		// voteWriteBytes, err := json.Marshal(&vote)
-		// if err != nil {
-		// 	fmt.Println("Error marshalling vote");
-		// 	return nil, errors.New("Error creating vote")
-		// }
+    token := vote.Token
+		for _,element := range election.Votes {
+			if token == element.Token {
+				return nil, errors.New("Duplicate vote attempt detected")
+			}
+		}
 
 		election.Votes = append(election.Votes, vote)
+
+		election.Tally.VoteCount = election.Tally.VoteCount + 1
 
 		err = t.saveElection(stub, election)
 
@@ -203,3 +238,51 @@ func (t *SimpleChaincode) vote(stub *shim.ChaincodeStub, args []string) ([]byte,
 
 		return nil, nil
 	}
+
+
+	  func (t *SimpleChaincode) tally(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
+
+		  if len(args) != 1 {
+				fmt.Println("error invalid arguments")
+				return nil, errors.New("Incorrect number of arguments. Expecting electionId")
+			}
+
+			var election Election
+			var err error
+
+			election, err = t.getElection(stub, args[0])
+
+			election.Tally.VoteCount = 0
+			election.Tally.OptionTotals = make([]OptionTotal, 0)
+
+			var counts map[int]int
+
+      counts[-1] = 0
+
+			for _,element := range election.Options {
+				counts[element.Id] = 0
+			}
+
+			for _,element := range election.Votes {
+				election.Tally.VoteCount = election.Tally.VoteCount + 1
+        counts[element.OptionId] = counts[element.OptionId] + 1
+			}
+
+			var keys []int
+			for k := range counts {
+			    keys = append(keys, k)
+			}
+			sort.Ints(keys)
+			for _, k := range keys {
+				election.Tally.OptionTotals = append(election.Tally.OptionTotals, OptionTotal{k, counts[k]})
+			}
+
+			err = t.saveElection(stub, election)
+
+			if err != nil {
+				fmt.Println("Error tallying");
+				return nil, errors.New("Error tallying")
+			}
+
+			return nil, nil
+		}
