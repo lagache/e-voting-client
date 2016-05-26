@@ -42,14 +42,13 @@ type Vote struct {
 }
 
 type Election struct {
+	Id string `json:"id"`
 	Name string `json:"name"`
 	Question string `json:"question"`
 	Options []Option  `json:"options"`
 	Tokens []string `json:"tokens"`
 	Votes []Vote `json:"vote"`
 }
-
-
 
 func main() {
 	err := shim.Start(new(SimpleChaincode))
@@ -103,10 +102,38 @@ func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args 
 }
 
 func (t *SimpleChaincode) createElection(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
-	return nil, nil
+	if len(args) != 1 {
+			fmt.Println("error invalid arguments")
+			return nil, errors.New("Incorrect number of arguments. Expecting election record")
+		}
+
+		var election Election
+		var err error
+
+		fmt.Println("Unmarshalling Election");
+		err = json.Unmarshal([]byte(args[0]), &election)
+		if err != nil {
+			fmt.Println("error election")
+			return nil, errors.New("Invalid election")
+		}
+
+		electionWriteBytes, err := json.Marshal(&election)
+		if err != nil {
+			fmt.Println("Error marshalling election");
+			return nil, errors.New("Error creating election")
+		}
+
+		err = stub.PutState(election.Id, electionWriteBytes)
+
+		if err != nil {
+			fmt.Println("Error creating election");
+			return nil, errors.New("Error creating election")
+		}
+
+		return nil, nil
 }
 
 func (t *SimpleChaincode) vote(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
-
+  // strings
 	return nil, nil
 }
