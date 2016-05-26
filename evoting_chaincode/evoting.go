@@ -254,7 +254,7 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 			tally.VoteCount = 0
 			tally.OptionTotals = make([]OptionTotal, 0)
 
-			var counts make(map[int]int)
+			counts := make(map[int]int)
 
       counts[-1] = 0
 
