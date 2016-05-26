@@ -43,13 +43,13 @@ type Vote struct {
 }
 
 type OptionTotal struct {
-  OptionId int `json:"optionId"`
+  Id int `json:"optionId"`
   Total int `json:"total"`
 }
 
 type Tally struct {
-	VoteCount int `json:"votecount"`
-	OptionTotals []OptionTotal `json:"tally"`
+	VoteCount int `json:"voteCount"`
+	OptionTotals []OptionTotal `json:"optionTotal"`
 }
 
 type Election struct {
@@ -60,6 +60,7 @@ type Election struct {
 	Tokens []string `json:"tokens"`
 	Votes []Vote `json:"vote"`
 	Tally Tally `json:"tally"`
+	AllowVoting bool `json:"allowVoting"`
 }
 
 func main() {
@@ -122,9 +123,23 @@ func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args 
 				return json.Marshal("1")
 			}
 		}
-		response, err := json.Marshal("0")
-		return response, errors.New("Vote with receipt " + receiptId + " not found")
-	}
+		return json.Marshal("0")
+		} else if function == "canVote" {
+			election, err := t.getElection(stub, args[0])
+			if err != nil {
+				return nil, err
+			}
+			if !election.AllowVoting {
+				return json.Marshal("0")
+			}
+			token := args[1]
+			for _,element := range election.Votes {
+				if token == element.Token {
+					return json.Marshal("0")
+				}
+			}
+			return json.Marshal("1")
+		}
 
 	fmt.Println("query did not find func: " + function)
 
@@ -160,7 +175,7 @@ func (t *SimpleChaincode) createElection(stub *shim.ChaincodeStub, args []string
 		var election Election
 		var err error
 
-		fmt.Println("Unmarshalling Election");
+		fmt.Println("Unmarshalling Election")
 		err = json.Unmarshal([]byte(args[0]), &election)
 		if err != nil {
 			fmt.Println("error unmarshalling election")
@@ -168,7 +183,7 @@ func (t *SimpleChaincode) createElection(stub *shim.ChaincodeStub, args []string
 		}
 
     election.Tally = Tally{}
-
+    election.AllowVoting = true
 
 		err = t.saveElection(stub, election)
 
@@ -211,18 +226,42 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 
 		election, err = t.getElection(stub, args[0])
 
-		fmt.Println("Unmarshalling Vote");
+    // ensure that voting is allowed
+		if !election.AllowVoting {
+			return nil, errors.New("Voting is not allowed because tallying has been done")
+		}
+
+		fmt.Println("Unmarshalling Vote")
 		err = json.Unmarshal([]byte(args[1]), &vote)
 		if err != nil {
 			fmt.Println("error vote")
 			return nil, errors.New("Invalid vote")
 		}
 
+		// check for duplicate token
     token := vote.Token
 		for _,element := range election.Votes {
 			if token == element.Token {
 				return nil, errors.New("Duplicate vote attempt detected")
 			}
+		}
+
+		// check for invalid optionId
+		optionId := vote.OptionId
+		validOption := false
+		if optionId == -1 {
+			validOption = true
+		}
+		for _,element := range election.Options {
+			if optionId == element.Id {
+				validOption = true
+			}
+		}
+		if !validOption {
+			return nil, errors.New("Chosen option is invalid")
+		}
+		if vote.ReceiptId == "" {
+			return nil, errors.New("No ReceiptId provided")
 		}
 
 		election.Votes = append(election.Votes, vote)
@@ -247,15 +286,14 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 				return nil, errors.New("Incorrect number of arguments. Expecting electionId")
 			}
 
-			var election Election
-			var err error
+			election, err := t.getElection(stub, args[0])
 
-			election, err = t.getElection(stub, args[0])
+			tally := Tally{}
 
-			election.Tally.VoteCount = 0
-			election.Tally.OptionTotals = make([]OptionTotal, 0)
+			tally.VoteCount = 0
+			tally.OptionTotals = make([]OptionTotal, 0)
 
-			var counts map[int]int
+			counts := make(map[int]int)
 
       counts[-1] = 0
 
@@ -263,9 +301,10 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 				counts[element.Id] = 0
 			}
 
+      //
 			for _,element := range election.Votes {
-				election.Tally.VoteCount = election.Tally.VoteCount + 1
-        counts[element.OptionId] = counts[element.OptionId] + 1
+				tally.VoteCount = tally.VoteCount + 1
+       counts[element.OptionId] = counts[element.OptionId] + 1
 			}
 
 			var keys []int
@@ -274,8 +313,12 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 			}
 			sort.Ints(keys)
 			for _, k := range keys {
-				election.Tally.OptionTotals = append(election.Tally.OptionTotals, OptionTotal{k, counts[k]})
+			  tally.OptionTotals = append(tally.OptionTotals, OptionTotal{k, counts[k]})
 			}
+
+      election.Tally = tally
+
+			election.AllowVoting = false
 
 			err = t.saveElection(stub, election)
 
