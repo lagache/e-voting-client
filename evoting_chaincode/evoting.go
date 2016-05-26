@@ -262,19 +262,20 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 				counts[element.Id] = 0
 			}
 
-//			for _,element := range election.Votes {
-//				tally.VoteCount = tally.VoteCount + 1
-//        counts[element.OptionId] = counts[element.OptionId] + 1
-//			}
+      //
+			for _,element := range election.Votes {
+				tally.VoteCount = tally.VoteCount + 1
+       counts[element.OptionId] = counts[element.OptionId] + 1
+			}
 
-			// var keys []int
-			// for k := range counts {
-			//     keys = append(keys, k)
-			// }
-			// sort.Ints(keys)
-			// for _, k := range keys {
-			//   tally.OptionTotals = append(tally.OptionTotals, OptionTotal{k, counts[k]})
-			// }
+			var keys []int
+			for k := range counts {
+			    keys = append(keys, k)
+			}
+			sort.Ints(keys)
+			for _, k := range keys {
+			  tally.OptionTotals = append(tally.OptionTotals, OptionTotal{k, counts[k]})
+			}
 
       election.Tally = tally
 
