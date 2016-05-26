@@ -304,6 +304,8 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 
       election.Tally = tally
 
+			election.AllowVoting = false
+
 			err = t.saveElection(stub, election)
 
 			if err != nil {
