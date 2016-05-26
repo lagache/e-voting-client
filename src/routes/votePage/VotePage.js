@@ -9,7 +9,7 @@
 
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Vote.scss';
+import s from './VotePage.scss';
 import Parties from './parties/Parties.js';
 import Candidates from './candidates/Candidates.js';
 
@@ -31,10 +31,9 @@ function sendVote(voteData){
 	xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
 
 	xhr.send(data);
-	// alert('data : ' + data);
 }
 
-function Vote({ election }) {
+function VotePage({ election }) {
 	return (
 	    <div className={s.root}>
 	      <div className={s.container}>
@@ -42,15 +41,17 @@ function Vote({ election }) {
 	        <h2>Select a Party</h2>
 	        <Parties data={election.parties}/>
 	        <br/>
-	        <div className={s.container}><button className={s.root} onClick={function(){
+	        <div className={s.container}><button className={s.root} onClick={
+	        	function(){
 	        		let partyOptionSelected=document.getElementById("partyOptions").value;
 	        		sendVote('option1='+partyOptionSelected);
-	        	}}>Submit</button></div>
+	        	}
+	        }>Submit</button></div>
 	      </div>
 	    </div>
 	);
 }
 
-Vote.propTypes = { election: PropTypes.object.isRequired };
+VotePage.propTypes = { election: PropTypes.object.isRequired };
 
-export default withStyles(Vote, s);
+export default withStyles(VotePage, s);

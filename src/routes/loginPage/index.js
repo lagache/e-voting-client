@@ -8,11 +8,11 @@
  */
 
 import React from 'react';
-import Login from './Login';
+import LoginPage from './LoginPage';
 
-export const path = '/login';
+export const path = '/LoginPage';
 export const action = async (state) => {
   const title = 'Log In';
   state.context.onSetTitle(title);
-  return <Login title={title} />;
+  return <LoginPage title={title} />;
 };

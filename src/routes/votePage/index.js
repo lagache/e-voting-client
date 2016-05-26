@@ -8,11 +8,11 @@
  */
 
 import React from 'react';
-import Vote from './Vote';
+import VotePage from './VotePage';
 
-export const path = '/vote';
+export const path = '/VotePage';
 export const action = async (state) => {
-  const title = 'Vote';
+  const title = 'VotePage';
   state.context.onSetTitle(title);
 
   var xhr = new XMLHttpRequest();
@@ -37,5 +37,5 @@ export const action = async (state) => {
   	  }
     ]
   }
-  return <Vote election={electionData} />;
+  return <VotePage election={electionData} />;
 };

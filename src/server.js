@@ -55,6 +55,22 @@ server.post('/api/election/vote/v1', function(req, res) {
   res.sendStatus(200);
 });
 
+server.post('/api/election/login/v1', function(req, res) {
+  // get information for block
+
+  let logins = ['user1', 'user2'];
+
+  console.log('loginString=' + req.body.loginString);
+  
+  if(logins.includes(req.body.loginString)){
+    console.log(200);
+    res.sendStatus(200);
+  } else {
+    console.log(401);
+    res.sendStatus(401);
+  }
+});
+
 // hardcoded response for getting election data
 server.get('/api/election/data/v1', function(req, res) {
   res.json(getElectionData());
