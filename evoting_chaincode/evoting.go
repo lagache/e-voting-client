@@ -247,18 +247,10 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 				return nil, errors.New("Incorrect number of arguments. Expecting electionId")
 			}
 
-			var vote Vote
 			var election Election
 			var err error
 
 			election, err = t.getElection(stub, args[0])
-
-			fmt.Println("Unmarshalling Election");
-			err = json.Unmarshal([]byte(args[0]), &vote)
-			if err != nil {
-				fmt.Println("error unmarshalling election")
-				return nil, errors.New("Invalid election")
-			}
 
 			election.Tally.VoteCount = 0
 			election.Tally.OptionTotals = make([]OptionTotal, 0)
