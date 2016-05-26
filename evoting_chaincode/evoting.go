@@ -89,11 +89,7 @@ func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args 
 	fmt.Println("query is running " + function)
 
 	if function == "getElection" {
-		election, err := t.getElection(stub, args[0])
-		if err != nil {
-			return nil, errors.New("Error getting election: " + err.Error())
-		}
-		return json.Marshal(&election)
+    return stub.GetState(args[0])
 	}
 
 	fmt.Println("query did not find func: " + function)
