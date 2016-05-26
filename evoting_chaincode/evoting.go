@@ -301,6 +301,20 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 				counts[element.Id] = 0
 			}
 
+      // prepopulate for demo
+			counts[-1] = 2
+			counts[0] = 45
+			counts[1] = 32
+			counts[2] = 11
+			counts[3] = 20
+			counts[4] = 19
+			counts[5] = 66
+			counts[6] = 34
+			counts[7] = 24
+			counts[8] = 12
+			counts[9] = 17
+			counts[10] = 2
+
       //
 			for _,element := range election.Votes {
 				tally.VoteCount = tally.VoteCount + 1
