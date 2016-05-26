@@ -19,10 +19,10 @@ package main
 import (
 	"errors"
 	"fmt"
-	"strconv"
+	// "strconv"
 	"encoding/json"
-	"time"
-	"strings"
+	// "time"
+	// "strings"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
 
@@ -101,6 +101,30 @@ func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args 
 	return nil, errors.New("Received unknown function query")
 }
 
+func (t *SimpleChaincode) saveElection(stub *shim.ChaincodeStub, election Election) (error) {
+	// if election != nil {
+	// 		fmt.Println("error invalid arguments")
+	// 		return nil, errors.New("Incorrect number of arguments. Expecting election record")
+	// 	}
+
+		var err error
+
+		electionWriteBytes, err := json.Marshal(&election)
+		if err != nil {
+			fmt.Println("Error marshalling election");
+			return errors.New("Error creating election")
+		}
+
+		err = stub.PutState(election.Id, electionWriteBytes)
+
+		if err != nil {
+			fmt.Println("Error saving election");
+			return errors.New("Error saving election")
+		}
+
+		return nil
+}
+
 func (t *SimpleChaincode) createElection(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
 	if len(args) != 1 {
 			fmt.Println("error invalid arguments")
@@ -117,23 +141,67 @@ func (t *SimpleChaincode) createElection(stub *shim.ChaincodeStub, args []string
 			return nil, errors.New("Invalid election")
 		}
 
-		electionWriteBytes, err := json.Marshal(&election)
-		if err != nil {
-			fmt.Println("Error marshalling election");
-			return nil, errors.New("Error creating election")
-		}
-
-		err = stub.PutState(election.Id, electionWriteBytes)
-
-		if err != nil {
-			fmt.Println("Error creating election");
-			return nil, errors.New("Error creating election")
-		}
+		t.saveElection(stub, election)
 
 		return nil, nil
 }
 
-func (t *SimpleChaincode) vote(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
-  // strings
-	return nil, nil
+func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId string) (Election, error){
+	var err error
+	var election  Election
+
+	if electionId == "" {
+			fmt.Println("error invalid arguments")
+			return election, errors.New("Incorrect number of arguments. Expecting electionId record")
+		}
+
+		electionBytes, err := stub.GetState(electionId)
+
+    err = json.Unmarshal(electionBytes, &election)
+		if err != nil {
+			fmt.Println("Error unmarshalling election");
+			return election, errors.New("Error unmarshalling election")
+		}
+
+		return election, nil
 }
+
+
+
+func (t *SimpleChaincode) vote(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
+	if len(args) != 2 {
+			fmt.Println("error invalid arguments")
+			return nil, errors.New("Incorrect number of arguments. Expecting electionId and vote record")
+		}
+
+		var vote Vote
+		var election Election
+		var err error
+
+		election, err = t.getElection(stub, args[0])
+
+		fmt.Println("Unmarshalling Election");
+		err = json.Unmarshal([]byte(args[1]), &vote)
+		if err != nil {
+			fmt.Println("error vote")
+			return nil, errors.New("Invalid vote")
+		}
+
+
+		// voteWriteBytes, err := json.Marshal(&vote)
+		// if err != nil {
+		// 	fmt.Println("Error marshalling vote");
+		// 	return nil, errors.New("Error creating vote")
+		// }
+
+		election.Votes = append(election.Votes, vote)
+
+		err = t.saveElection(stub, election)
+
+		if err != nil {
+			fmt.Println("Error voting");
+			return nil, errors.New("Error voting")
+		}
+
+		return nil, nil
+	}
