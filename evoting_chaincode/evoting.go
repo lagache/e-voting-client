@@ -48,8 +48,8 @@ type OptionTotal struct {
 }
 
 type Tally struct {
-	VoteCount int `json:"votecount"`
-	OptionTotals []OptionTotal `json:"tally"`
+	VoteCount int `json:"voteCount"`
+	OptionTotals []OptionTotal `json:"optionTotal"`
 }
 
 type Election struct {
@@ -256,7 +256,7 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 
 			var counts map[int]int
 
-      counts[-1] = 0
+//      counts[-1] = 0
 
 			for _,element := range election.Options {
 				counts[element.Id] = 0
@@ -266,6 +266,8 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 				tally.VoteCount = tally.VoteCount + 1
         counts[element.OptionId] = counts[element.OptionId] + 1
 			}
+
+			tally.VoteCount = 33
 
 			var keys []int
 			for k := range counts {
