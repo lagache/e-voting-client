@@ -60,6 +60,7 @@ type Election struct {
 	Tokens []string `json:"tokens"`
 	Votes []Vote `json:"vote"`
 	Tally Tally `json:"tally"`
+	AllowVoting bool `json:"allowVoting"`
 }
 
 func main() {
@@ -168,7 +169,7 @@ func (t *SimpleChaincode) createElection(stub *shim.ChaincodeStub, args []string
 		}
 
     election.Tally = Tally{}
-
+    election.AllowVoting = true
 
 		err = t.saveElection(stub, election)
 
@@ -211,6 +212,11 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 
 		election, err = t.getElection(stub, args[0])
 
+    // ensure that voting is allowed
+		if !election.AllowVoting {
+			return nil, errors.New("Voting is not allowed because tallying has been done")
+		}
+
 		fmt.Println("Unmarshalling Vote")
 		err = json.Unmarshal([]byte(args[1]), &vote)
 		if err != nil {
@@ -218,11 +224,30 @@ func (t *SimpleChaincode) getElection(stub *shim.ChaincodeStub, electionId strin
 			return nil, errors.New("Invalid vote")
 		}
 
+		// check for duplicate token
     token := vote.Token
 		for _,element := range election.Votes {
 			if token == element.Token {
 				return nil, errors.New("Duplicate vote attempt detected")
 			}
+		}
+
+		// check for invalid optionId
+		optionId := vote.OptionId
+		validOption := false
+		if optionId == -1 {
+			validOption = true
+		}
+		for _,element := range election.Options {
+			if optionId == element.Id {
+				validOption = true
+			}
+		}
+		if !validOption {
+			return nil, errors.New("Chosen option is invalid")
+		}
+		if vote.ReceiptId == "" {
+			return nil, errors.New("No ReceiptId provided")
 		}
 
 		election.Votes = append(election.Votes, vote)
