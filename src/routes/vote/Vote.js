@@ -25,7 +25,7 @@ function sendVote(voteData){
 	  }
 	});
 
-	xhr.open("POST", "http://localhost:3001/api/election/vote/v1");
+	xhr.open("POST", "/api/election/vote/v1");
 	xhr.setRequestHeader("cache-control", "no-cache");
 	xhr.setRequestHeader("postman-token", "ca5c5c4e-7436-c347-c2f3-52cfb0e5376e");
 	xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");

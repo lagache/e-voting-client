@@ -165,24 +165,37 @@ function getWelcome() {
 }
 
 function getElectionData(){
-    var electionDataMock = {
+    var self = this, output = {
+      election: {
           id:"0001",
           name:"MyElection",
           options:[
             {
               id:"01",
-              name:"Blue"
+              name:"brown"
             },
             {
               id:"02",
-              name:"Red"
+              name:"aubergine"
             }
           ]
-        };
+        }
+      };
+     console.log('### electionData: '+ electionData);
 
-    if(!electionData) {
-      electionData = electionDataMock;
-    }
+    if(electionData) {
+      var out = electionData.replace(/\\"/g, '"');
+      var res = JSON.parse(out);
+      output.election = res;
+      // chaincode.query.getElection(['0001'], function(err, data){
+      //    console.log('### data: '+ data);
+      //     //output.election = JSON.stringify(data);
+      //    });
+      
+    //   output.election.name = electionData.name;
+    //   output.election.options = electionData.options;
+    //   console.log('### output: '+ output);
+     }
 // electionData:{  
 //    "id":"0001",
 //    "name":"my first election into blockchain",
@@ -207,13 +220,7 @@ function getElectionData(){
 //    ]
   
 // }
-    return {
-        election: {
-              election_id: electionData.id,
-              election_name: electionData.name,
-              options: electionData.options   
-            }
-      };
+    return output;
 }
 
 // ########################################################################
@@ -227,7 +234,6 @@ function getElectionData(){
     var ibc = new Ibc1(/*logger*/);             //you can pass a logger such as winston here - optional
     var chaincode = {};
     var blockChainServiceName = 'ibm-blockchain-5-prod';
-    var appIbc = require('.././utils/appIbc.js');
 
     var peers, users;
     console.log('start loading peers and users from Blockchain service');
@@ -335,7 +341,7 @@ function getElectionData(){
            console.log('### chaincode:', chaincode);
            chaincode.query.getElection(['0001'], function(err, data){
               console.log('###query getElection:', data, err);
-              electionData = data;
+              electionData = JSON.parse(JSON.stringify(data));
               console.log('###electionData:', electionData);
            });
         } else {

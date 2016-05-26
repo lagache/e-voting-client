@@ -16,7 +16,7 @@ export const action = async (state) => {
   state.context.onSetTitle(title);
 
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", "http://localhost:3001/api/election/data/v1", false);
+  xhr.open("GET", "/api/election/data/v1", false);
   xhr.send();
 
   let electionData = JSON.parse(xhr.responseText).election;
