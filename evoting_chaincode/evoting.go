@@ -90,7 +90,7 @@ func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 	} else if function == "vote" {
 		return t.vote(stub, args)
 	} else if function == "tally" {
-		return t.vote(stub, args)
+		return t.tally(stub, args)
 	}
 
 	fmt.Println("invoke did not find func: " + function)
