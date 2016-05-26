@@ -123,9 +123,23 @@ func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args 
 				return json.Marshal("1")
 			}
 		}
-		response, err := json.Marshal("0")
-		return response, errors.New("Vote with receipt " + receiptId + " not found")
-	}
+		return json.Marshal("0")
+		} else if function == "canVote" {
+			election, err := t.getElection(stub, args[0])
+			if err != nil {
+				return nil, err
+			}
+			if !election.AllowVoting {
+				return json.Marshal("0")
+			}
+			token := args[1]
+			for _,element := range election.Votes {
+				if token == element.Token {
+					return json.Marshal("0")
+				}
+			}
+			return json.Marshal("1")
+		}
 
 	fmt.Println("query did not find func: " + function)
 
