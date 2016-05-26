@@ -16,7 +16,7 @@ function Home({ news }) {
     <div className={home.root}>
       <div className={home.container}>
         <h1 className={home.title}>How to vote online</h1>
-        
+
         <ul className={home.items}>
             <li className={home.item}>
               <div className={home.itemTitle}>Get your username </div>

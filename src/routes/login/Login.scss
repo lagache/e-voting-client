@@ -20,29 +20,76 @@
   max-width: $max-content-width;
 }
 
-.button {
-  display: inline-block;
-  margin-top: 5px;
-  padding: 0px 15px;
-  text-decoration: none;
+/* Login items */
+
+.inputField {
+  display: block;
   font-size: 1.5em;
-  background-color: rgba(50, 50, 50, 0.4);
-  color: rgba(255, 255, 255, .5);
-  border-color: #623f5a;
   border-radius: 5px;
-  margin-right: 5px;
-  cursor: pointer;
-  position: relative;
-  border-radius: 3px;
+  background: white;
+  border: 2px solid #D1D3D4;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0px;
+  width: 100%;
+  max-width: 400px;
+  height: 1.75em;
+  color: #333;
+  padding: 5px;
+}
+
+.inputField:focus {
+  box-shadow: 0 0 0 1px #999;
+}
+
+.buttonPrimary {
+  color: #fff;
+  background: #E9622C;
+  display: block;
+  font-family: 'Helvetica Condensed Light','Helvetica Neue',Arial,sans-serif;
+  font-weight: normal;
+    font-size: 1.5em;
+    letter-spacing: .025em;
+    line-height: 1;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-top: 25px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 0px;
+    padding-right: 0px;
+    text-decoration: none;
+    white-space: nowrap;
+  border: none;
+  border-radius: 5px; 
+  width: 100%;
+  max-width: 415px;
   text-align: center;
 }
 
-.button,
-.button:active,
-.button:visited {
-  color: rgba(255, 255, 255, .5);
+.buttonPrimary:hover {
+  background: #ED7D51;
 }
 
-.button:hover {
-  background-color: rgba(40, 40, 40, 0.8);
+h1 {
+  margin-bottom: -10px;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 0px;
+}
+
+h3 {
+  margin-bottom: 0px;
+}
+
+h4 {
+  margin-bottom: 2px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: auto;
+  text-align: center;
 }
