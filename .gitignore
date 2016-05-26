@@ -1,3 +1,6 @@
 build/*
+!build/.bluemix/pipeline.yml
+!build/manifest.yml
+foo.dll
 evoting_chaincode/evoting_chaincode
 node_modules/*
