@@ -17,7 +17,7 @@ function Parties({ data }) {
 	if(data){
 		partyOptions = data.map(function(party){
 			return (
-				<option key={party.id} id={party.id} value={party.id}>{party.name}</option>
+				<option key={party.party_id} id={party.party_id} value={party.party_id}>{party.party_name}</option>
 			);
 		});
 	}
