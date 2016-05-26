@@ -1,0 +1,10 @@
+---
+applications:
+- disk_quota: 1024M
+  name: votevault
+  command: "node server.js"
+  path: "."
+  instances: 1
+  memory: 512M
+  services:
+   - votevaultblockchain
