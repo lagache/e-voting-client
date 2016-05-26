@@ -10,6 +10,7 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Login.scss';
+import Link from '../../components/Link';
 
 function Login({ title }) {
   return (
@@ -24,7 +25,7 @@ function Login({ title }) {
           <h4>Password</h4>
         	<input type="text" id="password" placeholder="Password" tabIndex="2" className={s.inputField}/>
         </div>
-        	<div type="button" className={s.buttonPrimary} name="login">Login</div>
+          <Link to="/vote"><div type="button" className={s.buttonPrimary} name="login">Login</div></Link>
       </div>
     </div>
   );
