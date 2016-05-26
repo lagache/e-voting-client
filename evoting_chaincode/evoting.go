@@ -92,20 +92,20 @@ func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
 	fmt.Println("query is running " + function)
 
-	// Handle different functions
-	// if function == "read" {                            //read a variable
-	// 	return t.read(stub, args)
-	// }
+	if function == "getElection" {
+		election, err := t.getElection(stub, args[0])
+		if err != nil {
+			return nil, errors.New("Error getting election")			
+		}
+		return json.Marshal(&election)
+	}
+
 	fmt.Println("query did not find func: " + function)
 
 	return nil, errors.New("Received unknown function query")
 }
 
 func (t *SimpleChaincode) saveElection(stub *shim.ChaincodeStub, election Election) (error) {
-	// if election != nil {
-	// 		fmt.Println("error invalid arguments")
-	// 		return nil, errors.New("Incorrect number of arguments. Expecting election record")
-	// 	}
 
 		var err error
 
@@ -137,7 +137,7 @@ func (t *SimpleChaincode) createElection(stub *shim.ChaincodeStub, args []string
 		fmt.Println("Unmarshalling Election");
 		err = json.Unmarshal([]byte(args[0]), &election)
 		if err != nil {
-			fmt.Println("error election")
+			fmt.Println("error unmarshalling election")
 			return nil, errors.New("Invalid election")
 		}
 
