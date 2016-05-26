@@ -40,7 +40,7 @@ function Vote({ election }) {
 	      <div className={s.container}>
 	        <h1>Vote Here</h1>
 	        <h2>Select a Party</h2>
-	        <Parties data={election.parties}/>
+	        <Parties data={election.options}/>
 	        <br/>
 	        <div className={s.container}><button className={s.root} onClick={function(){
 	        		let partyOptionSelected=document.getElementById("partyOptions").value;

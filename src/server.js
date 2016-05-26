@@ -25,6 +25,9 @@ import { port, auth, analytics } from './config';
 
 const server = global.server = express();
 
+
+var electionData;
+
 //
 // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
 // user agent is not known.
@@ -162,40 +165,180 @@ function getWelcome() {
 }
 
 function getElectionData(){
+    var electionDataMock = {
+          id:"0001",
+          name:"MyElection",
+          options:[
+            {
+              id:"01",
+              name:"Blue"
+            },
+            {
+              id:"02",
+              name:"Red"
+            }
+          ]
+        };
+
+    if(!electionData) {
+      electionData = electionDataMock;
+    }
+// electionData:{  
+//    "id":"0001",
+//    "name":"my first election into blockchain",
+//    "question":"what is your favorite color",
+//    "options":[  
+//       {  
+//          "id":1,
+//          "name":"red"
+//       },
+//       {  
+//          "id":2,
+//          "name":"blue"
+//       },
+//       {  
+//          "id":3,
+//          "name":"greeen"
+//       },
+//       {  
+//          "id":4,
+//          "name":"yellow"
+//       }
+//    ]
+  
+// }
     return {
         election: {
-          election_id:"0001",
-          election_name:"MyElection",
-          parties:[
-            {
-              party_id:"01",
-              party_name:"Blue",
-              candidates:[
-                {
-                  candidate_id:"01",
-                  candidate_name:"Arya Stark"
-                },
-                {
-                  candidate_id:"02",
-                  candidate_name:"John Snow"
-                }
-              ]
-            },
-            {
-              party_id:"02",
-              party_name:"Red",
-              candidates:[
-                {
-                  candidate_id:"01",
-                  candidate_name:"Jamie Lanister"
-                },
-                {
-                  candidate_id:"02",
-                  candidate_name:"Cersie Lanister"
-                }
-              ]
-            },
-          ]
-        }
+              election_id: electionData.id,
+              election_name: electionData.name,
+              options: electionData.options   
+            }
       };
 }
+
+// ########################################################################
+// ########################################################################
+// ###################### DEPLOY chaincode ################################
+// ########################################################################
+// ########################################################################
+
+ // Step 1 ==================================
+    var Ibc1 = require('ibm-blockchain-js');
+    var ibc = new Ibc1(/*logger*/);             //you can pass a logger such as winston here - optional
+    var chaincode = {};
+    var blockChainServiceName = 'ibm-blockchain-5-prod';
+    var appIbc = require('.././utils/appIbc.js');
+
+    var peers, users;
+    console.log('start loading peers and users from Blockchain service');
+
+    if(process.env.VCAP_SERVICES){      
+    console.log('###1');                        //load from vcap, search for service, 1 of the 3 should be found...
+      var servicesObject = JSON.parse(process.env.VCAP_SERVICES);
+      console.log('###2:'+servicesObject);   
+      for(var i in servicesObject){
+        console.log('###3:'+i); 
+        if(i.indexOf(blockChainServiceName) >= 0){                     //looks close enough
+          if(servicesObject[i][0].credentials.error){
+            console.log('!\n!\n! Error from Bluemix: \n', servicesObject[i][0].credentials.error, '!\n!\n');
+            peers = null;
+            users = null;
+            process.error = {type: 'network', msg: 'Due to overwhelming demand the IBM Blockchain Network service is at maximum capacity.  Please try recreating this service at a later date.'};
+          }
+          if(servicesObject[i][0].credentials && servicesObject[i][0].credentials.peers){
+            console.log('writting peers, loading from a vcap service: ', i);
+            peers = servicesObject[i][0].credentials.peers;
+            if(servicesObject[i][0].credentials.users){
+              console.log('writting users, loading from a vcap service: ', i);
+              users = servicesObject[i][0].credentials.users;
+            } 
+            else users = null;                            //no security
+            break;
+          }
+        }
+      }
+    }
+
+
+    // Step 11
+    // ==================================
+    // configure ibm-blockchain-js sdk
+    // ==================================
+    var options =   {
+              network:{
+                peers: peers,
+                users: users,
+                options: {quiet: true, tls:false, maxRetry: 1}
+              },
+              chaincode: {
+                zip_url: 'https://github.com/lagache/e-voting-client/archive/master.zip',
+                git_url: 'https://github.com/lagache/e-voting-client/tree/master/evoting_chaincode',
+                unzip_dir: 'e-voting-client-master/evoting_chaincode',
+                deployed_name: '039dc8771292308aa30875cf3e0ef6a2023383c32218deb5012ebe419a6cf273f9a969f3d143d0a4de5069af7fe44164bc3d02495c67b4cb47360324717a7467'
+              }
+            };
+
+    if(process.env.VCAP_SERVICES){
+       // console.log('\n[!] looks like you are in bluemix, I am going to clear out the deploy_name so that it deploys new cc.\n[!] hope that is ok budddy\n');
+       // options.chaincode.deployed_name = '';
+    }
+                                //parse/load chaincode
+
+    var chaincode = null;
+
+    console.log("### before ib.load");
+    ibc.load(options, cb_ready);
+    console.log("### after ibc.load");
+
+    function cb_ready(err, cc){
+      console.log("### into cb_ready");
+      chaincode = cc;
+      console.log("### chaincode: " + chaincode);
+
+
+      if(cc && cc.details.deployed_name === ""){                //decide if I need to deploy or not
+        cc.deploy('init', ['99'], null, cb_deployed);
+      } else{
+        console.log('chaincode summary file indicates chaincode has been previously deployed');
+        cb_deployed();
+      }
+                                       //response has chaincode functions
+      // if(err != null){
+      //   console.log('! looks like an error loading the chaincode or network, app will fail\n', err);
+      //   if(!process.error) process.error = {type: 'load', msg: err.details};        //if it already exist, keep the last error
+      // }
+      // else{
+      //   chaincode = cc;
+      //    appIbc.setup(ibc, cc);
+      //   // part2.setup(ibc, cc);
+      //   if(!cc.details.deployed_name || cc.details.deployed_name === ''){         //decide if i need to deploy
+      //     cc.deploy('init', ['99'], {save_path: './cc_summaries', delay_ms: 50000}, cb_deployed);
+      //   }
+      //   else{
+      //     console.log('chaincode summary file indicates chaincode has been previously deployed');
+      //     cb_deployed();
+      //   }
+      // }
+    }
+
+    // Step 2 ==================================
+    //ibc.load(options, cb_ready);  
+
+    //  chaincode.query.getElection(['0001'], function(err, data){
+    //     console.log('###query getElection:', data, err);
+    // });
+
+    // Step 5 ==================================
+    function cb_deployed(err){
+        console.log('sdk has deployed code and waited');
+        if(chaincode) {
+           console.log('### chaincode:', chaincode);
+           chaincode.query.getElection(['0001'], function(err, data){
+              console.log('###query getElection:', data, err);
+              electionData = data;
+              console.log('###electionData:', electionData);
+           });
+        } else {
+          console.log('### sniff no chaincode object available');
+        }
+    }
