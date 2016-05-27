@@ -42,7 +42,7 @@ function Vote({ election }) {
 	        <h2>Select a Party</h2>
 	        <Parties data={election.options}/>
 	        <br/>
-	        <div className={s.container}><button className={s.root} onClick={function(){
+	        <div className={s.container}><button className={s.buttonPrimary} onClick={function(){
 	        		let partyOptionSelected=document.getElementById("partyOptions").value;
 	        		sendVote('option1='+partyOptionSelected);
 	        	}}>Submit</button></div>
@@ -50,6 +50,7 @@ function Vote({ election }) {
 	    </div>
 	);
 }
+
 
 Vote.propTypes = { election: PropTypes.object.isRequired };
 

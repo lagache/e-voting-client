@@ -19,3 +19,133 @@
   padding: 0 0 40px;
   max-width: $max-content-width;
 }
+
+/* BUTTONS */
+
+.buttonPrimary {
+  color: #fff;
+  background: #E9622C;
+  display: block;
+  font-family: 'Helvetica Condensed Light','Helvetica Neue',Arial,sans-serif;
+  font-weight: normal;
+    font-size: 1.5em;
+    letter-spacing: .025em;
+    line-height: 1;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-top: 25px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 0px;
+    padding-right: 0px;
+    text-decoration: none;
+    white-space: nowrap;
+  border: none;
+  border-radius: 5px; 
+  width: 100%;
+  max-width: 415px;
+  text-align: center;
+  font-style: none;
+}
+
+.buttonPrimary:hover {
+  background: #ED7D51;
+}
+
+/* HEADERS */
+
+h1 {
+  margin-bottom: -10px;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 0px;
+}
+
+h3 {
+  margin-bottom: 0px;
+}
+
+h4 {
+  margin-bottom: 2px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: auto;
+  text-align: center;
+}
+
+/* CSS for Voting page */
+
+form {
+	margin-left: 275px;
+	clear: left;
+}
+
+label {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 3px;
+  border: 2px solid #D1D3D4;
+  margin-left: auto;
+  margin-right: auto;
+  clear: left;
+  display: inline-block;
+}
+
+/* hide input */
+input.radio:empty {
+	margin-left: -999px;
+} 
+
+/* style label */
+input.radio:empty ~ label {
+	position: relative;
+	float: left;
+	line-height: 3em;
+	text-indent: 3.25em;
+	margin-top: 2em;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+input.radio:empty ~ label:before {
+	position: absolute;
+	display: block;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	content: '';
+	width: 2.5em;
+	background: #D1D3D4;
+	border-radius: 3px 0 0 3px;
+}
+
+/* toggle hover */
+input.radio:hover:not(:checked) ~ label:before {
+	content:'✓';
+	text-indent: .9em;
+	color: #C2C2C2;
+}
+
+input.radio:hover:not(:checked) ~ label {
+	color: #888;
+}
+
+/* toggle on */
+input.radio:checked ~ label:before {
+	content:'✓';
+	text-indent: .9em;
+	color: #FFF;
+	background-color: #4DCB6D;
+}
+
+input.radio:checked ~ label {
+	color: #333;
+  	border: 2px solid #4DCB6D;
+}
