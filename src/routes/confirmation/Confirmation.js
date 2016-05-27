@@ -23,8 +23,8 @@ function Confirmation({ title }) {
         <div>
           <h2>Syndey</h2>
         </div>
-          <Link to="/success"><div type="button" className={s.buttonPrimary} name="confirm">Confirm</div></Link>
-          <Link to="/vote"><div type="button" className={s.buttonPrimary} name="back">Back</div></Link>
+          <Link to="/success" className={s.noUnderline}><div type="button" className={s.buttonPrimary} name="confirm">Confirm</div></Link>
+          <Link to="/vote" className={s.noUnderline}><div type="button" className={s.buttonPrimary} name="back">Back</div></Link>
       </div>
     </div>
   );

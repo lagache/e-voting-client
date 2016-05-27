@@ -103,8 +103,8 @@ input.radio:checked ~ label {
     line-height: 1;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 0px;
-    margin-top: 150px;
+    margin-bottom: 70px;
+    margin-top: -30px;
     padding-top: 15px;
     padding-bottom: 15px;
     padding-left: 0px;
@@ -116,7 +116,7 @@ input.radio:checked ~ label {
   width: 100%;
   max-width: 415px;
   text-align: center;
-  font-style: none;
+  text-decoration: none;
   clear: left;
 }
 
@@ -151,4 +151,8 @@ h4 {
   display: block;
   width: auto;
   text-align: center;
+}
+
+.noUnderline {
+  text-decoration: none;
 }

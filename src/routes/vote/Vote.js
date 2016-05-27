@@ -43,13 +43,10 @@ function Vote({ election }) {
 	        <h2>Select a Party</h2>
 	        <Parties data={election.options}/>
 	        <br/>
-	        <div className={s.container}><button className={s.buttonPrimary} onClick={function(){
-	        		let partyOptionSelected=document.getElementById("partyOptions").value;
-	        		sendVote('option1='+partyOptionSelected);
-	        	}}>Submit</button></div>
 	      </div>
 
-          <Link to="/confirmation"><div type="button" className={s.buttonPrimary} name="confirm">Confirm</div></Link>
+          <Link to="/confirmation" className={s.noUnderline}><div type="button" className={s.buttonPrimary} name="Next">Next</div></Link>
+          <Link to="/login" className={s.noUnderline}><div type="button" className={s.buttonPrimary} name="back">Back</div></Link>
 	    </div>
 	);
 }

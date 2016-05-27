@@ -82,6 +82,7 @@ h4 {
 form {
 	margin-left: 275px;
 	clear: left;
+	margin-bottom: 180px;
 }
 
 label {
@@ -104,7 +105,7 @@ input.radio:empty {
 input.radio:empty ~ label {
 	position: relative;
 	float: left;
-	line-height: 3em;
+	line-height: 4.25em;
 	text-indent: 3.25em;
 	margin-top: 2em;
 	cursor: pointer;
@@ -128,7 +129,7 @@ input.radio:empty ~ label:before {
 
 /* toggle hover */
 input.radio:hover:not(:checked) ~ label:before {
-	content:'✓';
+	content:('./tick-white.png');
 	text-indent: .9em;
 	color: #C2C2C2;
 }
