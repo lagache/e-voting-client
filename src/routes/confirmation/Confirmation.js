@@ -9,28 +9,27 @@
 
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Login.scss';
+import s from './Confirmation.scss';
 import Link from '../../components/Link';
 
-function Login({ title }) {
+function Confirmation({ title }) {
   return (
     <div className={s.root}>
       <div className={s.container}>
         <h1>{title}</h1>
         <div>
-          <h4>Username</h4>
-        	<input type="text" id="username" placeholder="Username" tabIndex="1" className={s.inputField} />
+          <h3>You have selected</h3>
         </div>
         <div>
-          <h4>Password</h4>
-        	<input type="password" id="password" placeholder="Password" tabIndex="2" className={s.inputField}/>
+          <h2>Sydney</h2>
         </div>
-          <Link to="/vote" className={s.noUnderline}><div type="button" className={s.buttonPrimary} name="login">Login</div></Link>
+          <Link to="/success" className={s.noUnderline}><div type="button" className={s.buttonPrimary} name="confirm">Confirm</div></Link>
+          <Link to="/vote" className={s.noUnderline}><div type="button" className={s.buttonPrimary} name="back">Back</div></Link>
       </div>
     </div>
   );
 }
 
-Login.propTypes = { title: PropTypes.string.isRequired };
+Confirmation.propTypes = { title: PropTypes.string.isRequired };
 
-export default withStyles(Login, s);
+export default withStyles(Confirmation, s);

@@ -17,17 +17,20 @@ function Parties({ data }) {
 	if(data){
 		partyOptions = data.map(function(party){
 			return (
-				<option key={party.id} id={party.id} value={party.id}>{party.name}</option>
+				// <option key={party.id} id={party.id} value={party.id}>{party.name}</option>
+				<div>	
+					<input type="radio" key={party.id} name={party.name} id={party.id} className={s.radio} />
+					<label htmlFor={party.id}>{party.name}</label>
+				</div>
 			);
 		});
 	}
 
 	return (
 	    <div className={s.root}>
-	    	<select id="partyOptions">
-	    		<option disabled selected value> -- select an option -- </option>
+	    	<form id="partyOptions">
 	    		{partyOptions}
-	    	</select>
+	    	</form>
 	    </div>
 	);
 }

@@ -8,11 +8,11 @@
  */
 
 import React from 'react';
-import Register from './Register';
+import Success from './Success';
 
-export const path = '/register';
+export const path = '/success';
 export const action = async (state) => {
-  const title = 'Results of the election 0001';
+  const title = 'Success';
   state.context.onSetTitle(title);
-  return <Register title={title} />;
+  return <Success title={title} />;
 };

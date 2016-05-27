@@ -20,77 +20,27 @@
   max-width: $max-content-width;
 }
 
-/* CSS for Voting page */
+/* Login items */
 
-form {
-	margin-left: auto;
-	margin-right: auto;
-	clear: left;
-}
-
-label {
+.inputField {
+  display: block;
+  font-size: 1.5em;
+  border-radius: 5px;
+  background: white;
+  border: 2px solid #D1D3D4;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0px;
   width: 100%;
   max-width: 400px;
-  border-radius: 3px;
-  border: 2px solid #D1D3D4;
+  height: 1.75em;
+  color: #333;
+  padding: 5px;
 }
 
-/* hide input */
-input.radio:empty {
-	margin-left: -999px;
+.inputField:focus {
+  box-shadow: 0 0 0 1px #999;
 }
-
-/* style label */
-input.radio:empty ~ label {
-	position: relative;
-	float: left;
-	line-height: 3em;
-	text-indent: 3.25em;
-	margin-top: 2em;
-	cursor: pointer;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
-
-input.radio:empty ~ label:before {
-	position: absolute;
-	display: block;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	content: '';
-	width: 2.5em;
-	background: #D1D3D4;
-	border-radius: 3px 0 0 3px;
-}
-
-/* toggle hover */
-input.radio:hover:not(:checked) ~ label:before {
-	content:'✓';
-	text-indent: .9em;
-	color: #C2C2C2;
-}
-
-input.radio:hover:not(:checked) ~ label {
-	color: #888;
-}
-
-/* toggle on */
-input.radio:checked ~ label:before {
-	content:'✓';
-	text-indent: .9em;
-	color: #FFF;
-	background-color: #4DCB6D;
-}
-
-input.radio:checked ~ label {
-	color: #333;
-  border: 2px solid #4DCB6D;
-}
-
-/* BUTTONS */
 
 .buttonPrimary {
   color: #fff;
@@ -103,8 +53,8 @@ input.radio:checked ~ label {
     line-height: 1;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 70px;
-    margin-top: -30px;
+    margin-bottom: 0px;
+    margin-top: 25px;
     padding-top: 15px;
     padding-bottom: 15px;
     padding-left: 0px;
@@ -116,28 +66,19 @@ input.radio:checked ~ label {
   width: 100%;
   max-width: 415px;
   text-align: center;
-  text-decoration: none;
-  clear: left;
 }
 
 .buttonPrimary:hover {
   background: #ED7D51;
 }
 
-/* HEADERS */
-
 h1 {
   margin-bottom: -10px;
   text-align: center;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 h2 {
   margin-bottom: 0px;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 h3 {
@@ -151,8 +92,4 @@ h4 {
   display: block;
   width: auto;
   text-align: center;
-}
-
-.noUnderline {
-  text-decoration: none;
 }

@@ -66,6 +66,7 @@
   width: 100%;
   max-width: 415px;
   text-align: center;
+  font-style: none;
 }
 
 .buttonPrimary:hover {
@@ -92,4 +93,8 @@ h4 {
   display: block;
   width: auto;
   text-align: center;
+}
+
+.noUnderline {
+  text-decoration: none;
 }
