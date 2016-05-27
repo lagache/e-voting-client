@@ -21,7 +21,7 @@ function Confirmation({ title }) {
           <h3>You have selected</h3>
         </div>
         <div>
-          <h2>Syndey</h2>
+          <h2>Sydney</h2>
         </div>
           <Link to="/success" className={s.noUnderline}><div type="button" className={s.buttonPrimary} name="confirm">Confirm</div></Link>
           <Link to="/vote" className={s.noUnderline}><div type="button" className={s.buttonPrimary} name="back">Back</div></Link>
