@@ -12,7 +12,7 @@ import Register from './Register';
 
 export const path = '/register';
 export const action = async (state) => {
-  const title = 'New User Registration';
+  const title = 'Results of the election 0001';
   state.context.onSetTitle(title);
   return <Register title={title} />;
 };
