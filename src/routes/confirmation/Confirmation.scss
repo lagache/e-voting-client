@@ -1,0 +1,95 @@
+/**
+ * React Starter Kit (https://www.reactstarterkit.com/)
+ *
+ * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+@import '../../components/variables.scss';
+
+.root {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 0 40px;
+  max-width: $max-content-width;
+}
+
+/* Login items */
+
+.inputField {
+  display: block;
+  font-size: 1.5em;
+  border-radius: 5px;
+  background: white;
+  border: 2px solid #D1D3D4;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0px;
+  width: 100%;
+  max-width: 400px;
+  height: 1.75em;
+  color: #333;
+  padding: 5px;
+}
+
+.inputField:focus {
+  box-shadow: 0 0 0 1px #999;
+}
+
+.buttonPrimary {
+  color: #fff;
+  background: #E9622C;
+  display: block;
+  font-family: 'Helvetica Condensed Light','Helvetica Neue',Arial,sans-serif;
+  font-weight: normal;
+    font-size: 1.5em;
+    letter-spacing: .025em;
+    line-height: 1;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-top: 25px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 0px;
+    padding-right: 0px;
+    text-decoration: none;
+    white-space: nowrap;
+  border: none;
+  border-radius: 5px; 
+  width: 100%;
+  max-width: 415px;
+  text-align: center;
+}
+
+.buttonPrimary:hover {
+  background: #ED7D51;
+}
+
+h1 {
+  margin-bottom: -10px;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 0px;
+}
+
+h3 {
+  margin-bottom: 0px;
+}
+
+h4 {
+  margin-bottom: 2px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: auto;
+  text-align: center;
+}
