@@ -20,6 +20,8 @@ const routes = [
   require('./routes/contact'),
   require('./routes/login'),
   require('./routes/register'),
+  require('./routes/confirmation'),
+  require('./routes/success'),
   require('./routes/vote'),
 ];
 

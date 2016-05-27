@@ -9,28 +9,25 @@
 
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Login.scss';
+import s from './Success.scss';
 import Link from '../../components/Link';
 
-function Login({ title }) {
+function Success({ title }) {
   return (
     <div className={s.root}>
       <div className={s.container}>
         <h1>{title}</h1>
         <div>
-          <h4>Username</h4>
-        	<input type="text" id="username" placeholder="Username" tabIndex="1" className={s.inputField} />
+          <h3>Thank-you for voting</h3>
         </div>
         <div>
-          <h4>Password</h4>
-        	<input type="text" id="password" placeholder="Password" tabIndex="2" className={s.inputField}/>
+          <h2>You may now close this window</h2>
         </div>
-          <Link to="/vote" className={s.noUnderline}><div type="button" className={s.buttonPrimary} name="login">Login</div></Link>
       </div>
     </div>
   );
 }
 
-Login.propTypes = { title: PropTypes.string.isRequired };
+Success.propTypes = { title: PropTypes.string.isRequired };
 
-export default withStyles(Login, s);
+export default withStyles(Success, s);
