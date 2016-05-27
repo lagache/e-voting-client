@@ -17,11 +17,12 @@ function Success({ title }) {
     <div className={s.root}>
       <div className={s.container}>
         <h1>{title}</h1>
+        <img src={require('./success.png')} width="128" height="128" alt="Success" className={s.successImage}/>
         <div>
-          <h3>Thank-you for voting</h3>
+          <h2>Thank-you for voting</h2>
         </div>
         <div>
-          <h2>You may now close this window</h2>
+          <h4>You may now close this window</h4>
         </div>
       </div>
     </div>
