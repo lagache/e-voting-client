@@ -12,6 +12,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Vote.scss';
 import Parties from './parties/Parties.js';
 import Candidates from './candidates/Candidates.js';
+import Link from '../../components/Link';
 
 function sendVote(voteData){
 	let data = voteData;
@@ -47,6 +48,8 @@ function Vote({ election }) {
 	        		sendVote('option1='+partyOptionSelected);
 	        	}}>Submit</button></div>
 	      </div>
+
+          <Link to="/confirmation"><div type="button" className={s.buttonPrimary} name="confirm">Confirm</div></Link>
 	    </div>
 	);
 }
