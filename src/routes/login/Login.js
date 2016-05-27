@@ -23,7 +23,7 @@ function Login({ title }) {
         </div>
         <div>
           <h4>Password</h4>
-        	<input type="text" id="password" placeholder="Password" tabIndex="2" className={s.inputField}/>
+        	<input type="password" id="password" placeholder="Password" tabIndex="2" className={s.inputField}/>
         </div>
           <Link to="/vote" className={s.noUnderline}><div type="button" className={s.buttonPrimary} name="login">Login</div></Link>
       </div>
