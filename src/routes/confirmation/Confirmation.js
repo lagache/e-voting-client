@@ -18,9 +18,10 @@ function Confirmation({ title }) {
       <div className={s.container}>
         <h1>{title}</h1>
         <div>
-          <h3>You have selected</h3>
+          <h3>You are voting for</h3>
         </div>
-        <div>
+        <img src={require('./6-Sydney.png')} width="256" height="256" alt="City" className={s.confirmImage}/>
+        <div> 
           <h2>Sydney</h2>
         </div>
           <Link to="/success" className={s.noUnderline}><div type="button" className={s.buttonPrimary} name="confirm">Confirm</div></Link>

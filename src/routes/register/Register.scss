@@ -31,6 +31,7 @@
 
 ul {
 	list-style-type: none;
+	width: 100%;
 }
 
 li {
@@ -40,32 +41,56 @@ li {
 	border: 2px solid #D1D3D4;
 	border-radius: 3px;
 	padding: 5px;
-	padding-left: 10px;
+	padding-left: 0px;
+	padding-bottom: 3px;
+	padding-top: 0px;
+	line-height: 2.5em;
 }
 
 .nameWinner {
 	font-size:23px;
 	border: 4px solid #4DCB6D;
+	padding-left: 10px;
 }
 
 .nameWinner:before {
+	display: block;
 	content: 'Winner';
-	font-size: 23px;
+	color: #fff;
+	font-size: 12px;
 	background: #4DCB6D;
+	padding-left: 5px;
+	width: 103%;
+	height: 1.5em;
+	position: relative;
+	top: 0px;
+	left: -10px;
+	line-height: 1.2em;
 }
 
 .resultWinner {
 	font-size:23px;
-	text-align: right;
+	float: right;
+	margin-right: 3px;
+}
+
+.resultWinner:after {
+	content: ' votes';
 }
 
 .name {
-	font-size:23px;
+	font-size: 23px;
+	padding-left: 10px;
 }
 
 .result {
-	font-size:23px;
-	text-align: center;
+	font-size: 23px;
+	float: right;
+	margin-right: 3px;
+}
+
+.result:after {
+	content: ' votes';
 }
 
 /* BUTTONS */
@@ -104,7 +129,7 @@ li {
 /* HEADERS */
 
 h1 {
-  margin-bottom: -10px;
+  margin-bottom: 10px;
   text-align: center;
 }
 
@@ -131,4 +156,11 @@ p {
 
 .noUnderline {
   text-decoration: none;
+}
+
+/* Result images */
+
+.resultImage {
+	border-radius: 4px;
+	margin-right: 10px;
 }

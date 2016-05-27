@@ -79,10 +79,12 @@ h1 {
 
 h2 {
   margin-bottom: 0px;
+  text-align: center;
 }
 
 h3 {
   margin-bottom: 0px;
+  text-align: center;
 }
 
 h4 {
@@ -96,4 +98,15 @@ h4 {
 
 .noUnderline {
   text-decoration: none;
+}
+
+/* Confirmation */
+
+.confirmImage {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 128px;
+  margin-top: 15px;
+  border: 1px solid #000;
 }

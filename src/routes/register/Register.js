@@ -53,7 +53,7 @@ getInitialState: function() {
 	return (
 		<span className={s.root}>
 		  <span className={s.container}>
-		    <h1>Results of the election 0001</h1>
+		    <h1>Election results</h1>
 		     <span className={s.container}><button className={s.buttonPrimary} onClick={()=>this.tally('0001')}>Unlock results</button></span>
 		      
 		  </span>
@@ -64,32 +64,62 @@ getInitialState: function() {
 	  	return (
 		  	<div className={s.root}>
 				  <div className={s.container}>
-				    <h1>Results of the election 0001</h1>
-				     <p> Here the results for election 001:</p>
+				    <h1>Election results</h1>
 				      <ul className={s.electionResults}>
-				      	<li className={s.nameWinner}> <span>Sydney:</span> 
-				      	<span className={s.resultWinner}>12 </span>
+				      	<li className={s.nameWinner}> 
+				      		<img src={require('./img/6-Sydney.png')} width="42" height="42" alt="Sydney" className={s.resultImage}/>
+				      		<span>Sydney</span> 
+				      		<span className={s.resultWinner}>56</span>
 				      	</li>
-			      		<li className={s.name}> <span>London:</span> 
-			      		<span className={s.result}>8 </span>
+			      		<li className={s.name}>
+			      			<img src={require('./img/1-London.png')} width="42" height="42" alt="London" className={s.resultImage}/>
+			      			<span>London</span> 
+			      			<span className={s.result}>54</span>
 			      		</li>
-	      				<li className={s.name}> <span>Auckland:</span> 
-	      				<span className={s.result}>5 </span>
+	      				<li className={s.name}> 
+	      					<img src={require('./img/11-Auckland.png')} width="42" height="42" alt="Auckland" className={s.resultImage}/>
+	      					<span>Auckland</span> 
+	      					<span className={s.result}>34</span>
 	      				</li>
-	      				<li className={s.name}> <span>Paris:</span> 
-	      				<span className={s.result}>5 </span>
+	      				<li className={s.name}> 
+	      					<img src={require('./img/2-Paris.png')} width="42" height="42" alt="Paris" className={s.resultImage}/>
+	      					<span>Paris</span> 
+	      					<span className={s.result}>33</span>
 	      				</li>
-	      				<li className={s.name}> <span>Tokyo:</span> 
-	      				<span className={s.result}>4 </span>
+	      				<li className={s.name}>
+	      					<img src={require('./img/7-Tokyo.png')} width="42" height="42" alt="Tokyo" className={s.resultImage}/>
+	      					<span>Tokyo</span> 
+	      					<span className={s.result}>27</span>
 	      				</li>
-	      				<li className={s.name}> <span>Berlin:</span>
-	      				 <span className={s.result}>2 </span>
+	      				<li className={s.name}>
+	      					<img src={require('./img/3-Berlin.png')} width="42" height="42" alt="Berlin" className={s.resultImage}/>
+	      					<span>Berlin</span>
+	      					<span className={s.result}>23</span>
 	      				</li>
-	      				<li className={s.name}> <span>New York City:</span>
-	      				 <span className={s.result}>2 </span>
+	      				<li className={s.name}>
+	      					<img src={require('./img/4-NewYorkCity.png')} width="42" height="42" alt="New York City" className={s.resultImage}/>
+	      					<span>New York City</span>
+	      					<span className={s.result}>23</span>
 	      				</li>
-	      				<li className={s.name}> <span>Shanghai:</span>
-	      				 <span className={s.result}>1 </span>
+	      				<li className={s.name}>
+	      					<img src={require('./img/8-Shanghai.png')} width="42" height="42" alt="Shanghai" className={s.resultImage}/>
+	      					<span>Shanghai</span>
+	      					<span className={s.result}>20</span>
+	      				</li>
+	      				<li className={s.name}>
+	      					<img src={require('./img/5-SanFrancisco.png')} width="42" height="42" alt="SanFrancisco" className={s.resultImage}/>
+	      					<span>San Francisco</span>
+	      					<span className={s.result}>16</span>
+	      				</li>
+	      				<li className={s.name}>
+	      					<img src={require('./img/9-CapeTown.png')} width="42" height="42" alt="CapeTown" className={s.resultImage}/>
+	      					<span>Cape Town</span>
+	      					<span className={s.result}>14</span>
+	      				</li>
+	      				<li className={s.name}>
+	      					<img src={require('./img/10-Moscow.png')} width="42" height="42" alt="Moscow" className={s.resultImage}/>
+	      					<span>Moscow</span>
+	      					<span className={s.result}>12</span>
 	      				</li>
 	      				
 				      </ul>
