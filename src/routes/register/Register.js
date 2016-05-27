@@ -54,7 +54,7 @@ getInitialState: function() {
 		<span className={s.root}>
 		  <span className={s.container}>
 		    <h1>Results of the election 0001</h1>
-		     <span className={s.container}><button className={s.root} onClick={()=>this.tally('0001')}>Unlock results</button></span>
+		     <span className={s.container}><button className={s.buttonPrimary} onClick={()=>this.tally('0001')}>Unlock results</button></span>
 		      
 		  </span>
 		</span>
@@ -66,29 +66,29 @@ getInitialState: function() {
 				  <div className={s.container}>
 				    <h1>Results of the election 0001</h1>
 				     <p> Here the results for election 001:</p>
-				      <ul>
-				      	<li> <span className={s.nameWinner}>Sydney:</span> 
+				      <ul className={s.electionResults}>
+				      	<li className={s.nameWinner}> <span>Sydney:</span> 
 				      	<span className={s.resultWinner}>12 </span>
 				      	</li>
-			      		<li> <span className={s.name}>London:</span> 
+			      		<li className={s.name}> <span>London:</span> 
 			      		<span className={s.result}>8 </span>
 			      		</li>
-	      				<li> <span className={s.name}>Auckland:</span> 
+	      				<li className={s.name}> <span>Auckland:</span> 
 	      				<span className={s.result}>5 </span>
 	      				</li>
-	      				<li> <span className={s.name}>Paris:</span> 
+	      				<li className={s.name}> <span>Paris:</span> 
 	      				<span className={s.result}>5 </span>
 	      				</li>
-	      				<li> <span className={s.name}>Tokyo:</span> 
+	      				<li className={s.name}> <span>Tokyo:</span> 
 	      				<span className={s.result}>4 </span>
 	      				</li>
-	      				<li> <span className={s.name}>Berlin:</span>
+	      				<li className={s.name}> <span>Berlin:</span>
 	      				 <span className={s.result}>2 </span>
 	      				</li>
-	      				<li> <span className={s.name}>New york:</span>
+	      				<li className={s.name}> <span>New York City:</span>
 	      				 <span className={s.result}>2 </span>
 	      				</li>
-	      				<li> <span className={s.name}>Shanghai:</span>
+	      				<li className={s.name}> <span>Shanghai:</span>
 	      				 <span className={s.result}>1 </span>
 	      				</li>
 	      				
